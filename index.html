@@ -134,25 +134,25 @@ h1,h2,p{
 
 /* 🔥 CONFIGURACIÓN SUPABASE CORRECTA */
 const supabaseClient = supabase.createClient(
-  "https://daipxtxpbxjcumramosx.supabase.co",
-  "sb_publishable_Jek-jlb9302tSXZyEw-W8Q_fH1pTZbr"
+  "https://jzflvxtepjbxyixmrsng.supabase.co",
+  "sb_publishable_q_rsN4emeC9CD29q-3n4WA_9ned_PNV"
 );
 
-async function guardarRespuesta(valor){
-    try{
-        const { error } = await supabaseClient
-            .from('respues')
-            .insert([{ respuesta: valor }]);
 
-        if(error){
-            console.error("Error:", error);
-        }else{
-            console.log("Guardado 💖");
-        }
-    }catch(e){
-        console.error("Error inesperado:", e);
+async function guardarRespuesta(valor){
+    const { data, error } = await supabaseClient
+        .from('respues') // cambia si tu tabla se llama diferente
+        .insert([{ respuesta: valor }]);
+
+    if(error){
+        alert("Error: " + error.message);
+        console.log(error);
+    } else {
+        alert("Se guardó correctamente 💖");
+        console.log(data);
     }
 }
+
 
 /* LÓGICA DE LA PÁGINA */
 let paso = 0;
