@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
 <title>Para tí 💖</title>
+    <!-- selelcionar estilo  -->
+<link rel="stylesheet" href="estilos.css">
 
 <style>
 body{
@@ -138,7 +141,7 @@ const supabaseClient = supabase.createClient(
 async function guardarRespuesta(valor){
     try{
         const { error } = await supabaseClient
-            .from('respuesta')
+            .from('respues')
             .insert([{ respuesta: valor }]);
 
         if(error){
@@ -298,16 +301,36 @@ function respuestaSi(event){
     event.stopPropagation();
     guardarRespuesta("SI - Quiere ser mi novia 💖");
     fiesta30Segundos();
+
     document.getElementById("novia").classList.add("hidden");
     document.getElementById("final").classList.remove("hidden");
 
-    document.getElementById("mensajeFinal").innerHTML=
-    "🌟💖 te amooo.... 💖🌟<br><br>" +
-    "Desde que llegaste a mi vida todo tiene más sentido, más colores y más felicidad 🌈✨<br><br>" +
-    "Prometo cuidarte, hacerte reír y acompañarte siempre 💕<br><br>" +
-    "Eres mi amor más bonito 💗<br><br>" +
-    "TE QUIERO CON TODO MI CORAZÓN 💖👑";
+    document.getElementById("mensajeFinal").innerHTML = `
+        <div class="card-amor">
+            <img src="img1.png" class="img-amor">
+
+            <h1 class="titulo-amor">💖 Te Amoo 💖</h1>
+
+            <p>
+                Desde que llegaste a mi vida todo tiene más sentido, 
+                más colores y más felicidad 🌈✨
+            </p>
+
+            <p>
+                Prometo cuidarte, hacerte reír y acompañarte siempre 💕
+            </p>
+
+            <p class="destacado">
+                Eres mi amor más bonito 💗
+            </p>
+
+            <h2 class="final-amor">
+                TE QUIERO CON TODO MI CORAZÓN 👑💖
+            </h2>
+        </div>
+    `;
 }
+
 
 function respuestaNo(event){
     event.stopPropagation();
@@ -317,10 +340,14 @@ function respuestaNo(event){
     document.getElementById("mensajeFinal").innerHTML="😌 Gracias por ser sincera 💛";
 }
 </script>
+<!-- selelcionar la cancion -->
 
 <audio id="bgMusic" loop>
   <source src="music1.mp3" type="audio/mpeg">
 </audio>
+
+
+
 
 </body>
 </html>

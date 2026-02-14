@@ -1,0 +1,43 @@
+.card-amor {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(15px);
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    color: white;
+    max-width: 600px;
+    margin: auto;
+    box-shadow: 0 0 40px rgba(255, 0, 128, 0.6);
+    animation: aparecer 1s ease;
+}
+
+.img-amor {
+    width: 200px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 25px rgba(255, 0, 128, 0.7);
+}
+
+.titulo-amor {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #ff66cc;
+}
+
+.destacado {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffb3ff;
+    margin-top: 15px;
+}
+
+.final-amor {
+    margin-top: 25px;
+    font-size: 26px;
+    color: #ff4da6;
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
