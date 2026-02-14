@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para tí 💖</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-family:Arial;
+    color:white;
+    overflow:hidden;
+    transition:background 1s;
+}
+
+.fondo1{ background:linear-gradient(135deg,#ff758c,#ff7eb3,#ffb199); }
+.fondo2{ background:linear-gradient(135deg,#ff4e50,#ff9966); }
+.fondo3{ background:linear-gradient(135deg,#8e2de2,#4a00e0); }
+.fondo4{ background:linear-gradient(135deg,#141e30,#243b55); }
+
+.container{
+    padding:40px;
+    border-radius:25px;
+    backdrop-filter:blur(15px);
+    background:rgba(255,255,255,0.15);
+    border:3px solid white;
+    box-shadow:0 0 30px rgba(0,0,0,0.4);
+    animation: aparecer 0.8s ease;
+    z-index:2;
+    position:relative;
+}
+
+@keyframes aparecer{
+    from{opacity:0; transform:scale(0.8);}
+    to{opacity:1; transform:scale(1);}
+}
+
+button{
+    padding:12px 25px;
+    margin:15px;
+    font-size:18px;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+button:hover{ transform:scale(1.2); }
+
+.hidden{ display:none; }
+
+img{
+    width:200px;
+    margin:20px 0;
+    border-radius:20px;
+}
+
+.sparkle{
+    position:absolute;
+    font-size:20px;
+    animation: subir 2s linear forwards;
+    pointer-events:none;
+}
+
+@keyframes subir{
+    0%{ opacity:1; transform:translateY(0); }
+    100%{ opacity:0; transform:translateY(-150px); }
+}
+
+h1,h2,p{
+    text-shadow:0 0 15px rgba(0,0,0,0.6);
+}
+</style>
+</head>
+
+<body class="fondo1" onclick="siguientePantalla()">
+
+<!-- PORTADA -->
+<div class="container" id="portada">
+    <img src="image5.jpg">
+    <h1>💕 ¡Hola 🤗 tengo algo para ti! 💕</h1>
+    <p>✨ Toca la pantallita ✨</p>
+</div>
+
+<!-- SAN VALENTÍN -->
+<div class="container hidden" id="sanValentin">
+    <img src="image1.jpg">
+    <h2>🌹 ¿Quieres ser mi san valentin Princesa? 💘</h2>
+    <p id="mensajeNo" style="font-weight:bold;"></p>
+    <button onclick="sanValentinSi(event)">Sí 💖</button>
+    <button id="noBtn" onclick="moverNo(event)">No 😅</button>
+</div>
+
+<!-- MENSAJE AMOR -->
+<div class="container hidden" id="mensajeAmor">
+    <img src="image2.jpg">
+    <h2>
+    💕 Gracias por llenar mi vida de colores 💕<br><br>
+    👑 Eres y serás siempre la princesa de mi vida 👑<br><br>
+    💖 Te amo mucho 💖
+    </h2>
+    <p>✨ Toca la pantalla una vez más ✨</p>
+</div>
+
+<!-- PREGUNTA NOVIA -->
+<div class="container hidden" id="novia">
+    <img src="image4.jpg">
+    <h2>💍 ¿Quieres ser mi novia? 💍</h2>
+    <button onclick="respuestaSi(event)">Sí 😍</button>
+    <button onclick="respuestaNo(event)">No 😳</button>
+</div>
+
+<!-- FINAL -->
+<div class="container hidden" id="final">
+    <img src="image6.jpg">
+    <h1 id="mensajeFinal"></h1>
+</div>
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+
+
+/* 🔥 CONFIGURACIÓN SUPABASE CORRECTA */
+const supabaseClient = supabase.createClient(
+  "https://daipxtxpbxjcumramosx.supabase.co",
+  "sb_publishable_Jek-jlb9302tSXZyEw-W8Q_fH1pTZbr"
+);
+
+async function guardarRespuesta(valor){
+    try{
+        const { error } = await supabaseClient
+            .from('respuesta')
+            .insert([{ respuesta: valor }]);
+
+        if(error){
+            console.error("Error:", error);
+        }else{
+            console.log("Guardado 💖");
+        }
+    }catch(e){
+        console.error("Error inesperado:", e);
+    }
+}
+
+/* LÓGICA DE LA PÁGINA */
+let paso = 0;
+let contadorNo = 0;
+
+const mensajesNo = [
+"🥺 ¿Estás segura? Prometo llevarte chocolates 🍫💕",
+"😢 Piénsalo otra vez… seríamos muy lindos 💞",
+"💖 No seas malita conmigo, di que sí 🙈",
+"🌹 Te haré la persona más feliz del mundo ✨",
+"👑 Seré el mejor San Valentín para ti 💕",
+"👑 Te cuidare hoy, mañana y siempre!!! 💕",
+"😭 Bueno… ya no te dejo decir que no 😅💘"
+];
+
+const coloresBoton = [
+"#ff4e50","#ff6a88","#ff758c",
+"#ff9966","#f857a6","#ff3e6c"
+];
+
+function siguientePantalla(){
+
+    // 🎵 Reproducir música solo la primera vez
+    const music = document.getElementById("bgMusic");
+    if (music.paused) {
+        music.volume = 0.4; // volumen romántico
+        music.play();
+    }
+
+    if(paso === 0){
+        document.getElementById("portada").classList.add("hidden");
+        document.getElementById("sanValentin").classList.remove("hidden");
+        document.body.classList.replace("fondo1","fondo2");
+        paso++;
+    } 
+    else if(paso === 2){
+        document.getElementById("mensajeAmor").classList.add("hidden");
+        document.getElementById("novia").classList.remove("hidden");
+        document.body.classList.replace("fondo3","fondo4");
+        paso++;
+    }
+}
+
+
+
+function moverNo(event){
+    event.stopPropagation();
+    let btn = document.getElementById("noBtn");
+
+    if(contadorNo < mensajesNo.length){
+        document.getElementById("mensajeNo").innerHTML = mensajesNo[contadorNo];
+        btn.style.background = coloresBoton[contadorNo];
+        btn.style.position="absolute";
+        btn.style.left=Math.random()*300+"px";
+        btn.style.top=Math.random()*200+"px";
+        contadorNo++;
+    } else {
+        btn.style.display="none";
+    }
+}
+function explosionCorazones() {
+    for (let i = 0; i < 60; i++) {
+
+        let heart = document.createElement("div");
+        heart.innerHTML = "💖";
+        heart.style.position = "fixed";
+        heart.style.left = "50%";
+        heart.style.top = "50%";
+        heart.style.fontSize = (Math.random() * 25 + 20) + "px";
+        heart.style.pointerEvents = "none";
+        heart.style.zIndex = "9999";
+
+        document.body.appendChild(heart);
+
+        let angle = Math.random() * 2 * Math.PI;
+        let distance = Math.random() * 300 + 100;
+
+        let x = Math.cos(angle) * distance;
+        let y = Math.sin(angle) * distance;
+
+        heart.animate([
+            { transform: "translate(0,0)", opacity: 1 },
+            { transform: `translate(${x}px, ${y}px)`, opacity: 0 }
+        ], {
+            duration: 1200,
+            easing: "ease-out"
+        });
+
+        setTimeout(() => heart.remove(), 1200);
+    }
+}
+
+
+function sanValentinSi(event){
+    event.stopPropagation();
+    guardarRespuesta("SI - Aceptó San Valentín 💖");
+    explosionCorazones();
+    document.getElementById("sanValentin").classList.add("hidden");
+    document.getElementById("mensajeAmor").classList.remove("hidden");
+    document.body.classList.replace("fondo2","fondo3");
+    paso=2;
+}
+
+function respuestaSi(event){
+    event.stopPropagation();
+    guardarRespuesta("SI - Quiere ser mi novia 💖");
+    explosionCorazones();
+    document.getElementById("novia").classList.add("hidden");
+    document.getElementById("final").classList.remove("hidden");
+
+    document.getElementById("mensajeFinal").innerHTML=
+    "🌟💖 Xiomi... 💖🌟<br><br>" +
+    "Desde que llegaste a mi vida todo tiene más sentido, más colores y más felicidad 🌈✨<br><br>" +
+    "Prometo cuidarte, hacerte reír y acompañarte siempre 💕<br><br>" +
+    "Eres mi amor más bonito 💗<br><br>" +
+    "TE QUIERO CON TODO MI CORAZÓN 💖👑";
+}
+
+function respuestaNo(event){
+    event.stopPropagation();
+    guardarRespuesta("NO - No quiere ser mi novia 😢");
+    document.getElementById("novia").classList.add("hidden");
+    document.getElementById("final").classList.remove("hidden");
+    document.getElementById("mensajeFinal").innerHTML="😌 Gracias por ser sincera 💛";
+}
+</script>
+
+<audio id="bgMusic" loop>
+  <source src="music1.mp3" type="audio/mpeg">
+</audio>
+
+</body>
+</html>
