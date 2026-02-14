@@ -242,6 +242,47 @@ function explosionCorazones() {
     }
 }
 
+function explosionCorazonesPotente() {
+    for (let i = 0; i < 80; i++) {
+
+        let heart = document.createElement("div");
+        heart.innerHTML = Math.random() > 0.5 ? "💖" : "✨";
+        heart.style.position = "fixed";
+        heart.style.left = "50%";
+        heart.style.top = "50%";
+        heart.style.fontSize = (Math.random() * 30 + 20) + "px";
+        heart.style.pointerEvents = "none";
+        heart.style.zIndex = "9999";
+
+        document.body.appendChild(heart);
+
+        let angle = Math.random() * 2 * Math.PI;
+        let distance = Math.random() * 400 + 150;
+
+        let x = Math.cos(angle) * distance;
+        let y = Math.sin(angle) * distance;
+
+        heart.animate([
+            { transform: "translate(0,0) scale(1)", opacity: 1 },
+            { transform: `translate(${x}px, ${y}px) scale(0.5)`, opacity: 0 }
+        ], {
+            duration: 1500,
+            easing: "ease-out"
+        });
+
+        setTimeout(() => heart.remove(), 1500);
+    }
+}
+function fiesta30Segundos() {
+
+    let intervalo = setInterval(() => {
+        explosionCorazonesPotente();
+    }, 500); // explosión cada 0.5 segundos
+
+    setTimeout(() => {
+        clearInterval(intervalo);
+    }, 30000); // detener después de 30 segundos
+}
 
 function sanValentinSi(event){
     event.stopPropagation();
@@ -256,12 +297,12 @@ function sanValentinSi(event){
 function respuestaSi(event){
     event.stopPropagation();
     guardarRespuesta("SI - Quiere ser mi novia 💖");
-    explosionCorazones();
+    fiesta30Segundos();
     document.getElementById("novia").classList.add("hidden");
     document.getElementById("final").classList.remove("hidden");
 
     document.getElementById("mensajeFinal").innerHTML=
-    "🌟💖 Xiomi... 💖🌟<br><br>" +
+    "🌟💖 te amooo.... 💖🌟<br><br>" +
     "Desde que llegaste a mi vida todo tiene más sentido, más colores y más felicidad 🌈✨<br><br>" +
     "Prometo cuidarte, hacerte reír y acompañarte siempre 💕<br><br>" +
     "Eres mi amor más bonito 💗<br><br>" +
